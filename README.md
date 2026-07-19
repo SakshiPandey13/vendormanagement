@@ -2,6 +2,16 @@
 
 VendorLink is a modern, full-stack Vendor Management System built with the MERN stack (MongoDB, Express, React, Node.js). It provides a comprehensive solution for managing vendors, purchase orders, products, inventory, payments, and reporting.
 
+---
+
+## 🌐 Live Demo
+
+🔗 **Application:** https://vendormanagement-seven.vercel.app
+
+> Experience VendorLink directly in your browser without any local installation.
+
+---
+
 ## Features
 
 *   **Role-Based Access Control:** Separate dashboards and functionalities for Admins and Vendors.
