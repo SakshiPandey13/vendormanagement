@@ -21,6 +21,11 @@ export const markAllAsRead = createAsyncThunk('notifications/markAllRead', async
   catch (err) { return rejectWithValue(err.response?.data?.message || 'Failed'); }
 });
 
+export const deleteNotification = createAsyncThunk('notifications/delete', async (id, { rejectWithValue }) => {
+  try { return await notificationService.deleteNotification(id); }
+  catch (err) { return rejectWithValue(err.response?.data?.message || 'Failed'); }
+});
+
 const notificationSlice = createSlice({
   name: 'notifications',
   initialState: { notifications: [], unreadCount: 0, pagination: null, loading: false },
@@ -44,6 +49,14 @@ const notificationSlice = createSlice({
      .addCase(markAllAsRead.fulfilled, (s) => {
        s.notifications = s.notifications.map(n => ({ ...n, isRead: true }));
        s.unreadCount = 0;
+     })
+     .addCase(deleteNotification.fulfilled, (s, a) => {
+       const deletedId = a.meta.arg;
+       const target = s.notifications.find(n => n._id === deletedId);
+       if (target && !target.isRead) {
+         s.unreadCount = Math.max(0, s.unreadCount - 1);
+       }
+       s.notifications = s.notifications.filter(n => n._id !== deletedId);
      });
   },
 });
