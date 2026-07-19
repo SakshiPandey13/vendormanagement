@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Mail, ArrowLeft, Link2, CheckCircle } from 'lucide-react';
+import { Mail, ArrowLeft, CheckCircle } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { forgotPassword, selectAuthLoading } from '../../store/slices/authSlice';
 
@@ -24,44 +24,45 @@ const ForgotPassword = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-secondary-900 via-secondary-800 to-primary-900 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-[var(--beige-bg)] flex items-center justify-center p-4">
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="w-full max-w-md">
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-primary-600 rounded-2xl shadow-glow mb-4">
-            <Link2 className="w-8 h-8 text-white" />
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-[var(--secondary)] rounded-2xl mb-4">
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--surface)" strokeWidth="2.4" strokeLinecap="round" className="w-8 h-8">
+              <path d="M9 15L15 9"/><path d="M14 6h4v4"/><path d="M10 18H6v-4"/>
+            </svg>
           </div>
-          <h1 className="text-2xl font-bold text-white">Forgot Password?</h1>
-          <p className="text-secondary-400 mt-1">Enter your email to receive a reset link</p>
+          <h1 className="text-3xl font-bold text-[var(--text-primary)] font-space tracking-tight">Forgot Password?</h1>
+          <p className="text-[var(--text-secondary)] mt-1 font-medium">Enter your email to receive a reset link</p>
         </div>
 
-        <div className="glass rounded-3xl p-8 border border-white/10 shadow-2xl">
+        <div className="card p-8">
           {sent ? (
             <div className="text-center py-4">
-              <CheckCircle className="w-16 h-16 text-green-400 mx-auto mb-4" />
-              <h3 className="text-lg font-semibold text-white mb-2">Email Sent!</h3>
-              <p className="text-secondary-400 text-sm mb-6">Check your inbox for the password reset link. It expires in 15 minutes.</p>
-              <Link to="/login" className="text-primary-400 hover:text-primary-300 text-sm font-medium">Back to Login</Link>
+              <CheckCircle className="w-16 h-16 text-[var(--cyan-dark)] mx-auto mb-4" />
+              <h3 className="text-lg font-bold text-[var(--text-primary)] font-space mb-2">Email Sent!</h3>
+              <p className="text-[var(--text-secondary)] text-sm mb-6">Check your inbox for the password reset link. It expires in 15 minutes.</p>
+              <Link to="/login" className="text-[var(--cyan-dark)] hover:underline text-sm font-semibold">Back to Login</Link>
             </div>
           ) : (
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
               <div>
-                <label className="block text-sm font-medium text-secondary-300 mb-1.5">Email address</label>
+                <label className="label">Email address</label>
                 <div className="relative">
-                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-secondary-500" />
+                  <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--text-muted)]" />
                   <input type="email" placeholder="your@email.com"
                     {...register('email', { required: 'Email is required', pattern: { value: /\S+@\S+\.\S+/, message: 'Invalid email' } })}
-                    className="w-full pl-10 pr-4 py-3 bg-secondary-900/60 border border-white/10 rounded-xl text-white placeholder-secondary-500 focus:outline-none focus:ring-2 focus:ring-primary-500 text-sm"
+                    className="input-field pl-10 pr-4 py-3"
                   />
                 </div>
-                {errors.email && <p className="mt-1 text-xs text-red-400">{errors.email.message}</p>}
+                {errors.email && <p className="mt-1.5 text-xs text-[var(--neg)] font-semibold">{errors.email.message}</p>}
               </div>
 
-              <motion.button whileTap={{ scale: 0.98 }} type="submit" disabled={loading}
-                className="w-full bg-primary-600 hover:bg-primary-500 text-white font-semibold py-3 px-4 rounded-xl transition-all disabled:opacity-50 flex items-center justify-center gap-2">
+              <button type="submit" disabled={loading} className="btn-primary w-full py-3">
                 {loading ? <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : 'Send Reset Link'}
-              </motion.button>
+              </button>
 
-              <Link to="/login" className="flex items-center justify-center gap-1.5 text-sm text-secondary-400 hover:text-secondary-300 transition-colors mt-2">
+              <Link to="/login" className="flex items-center justify-center gap-1.5 text-sm font-semibold text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors mt-2">
                 <ArrowLeft className="w-4 h-4" /> Back to Login
               </Link>
             </form>

@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Mail, Lock, Eye, EyeOff, Link2, ArrowRight } from 'lucide-react';
+import { Mail, Lock, Eye, EyeOff, ArrowRight } from 'lucide-react';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 import { login, selectIsAuthenticated, selectAuthLoading, selectAuthError, clearError } from '../../store/slices/authSlice';
@@ -37,13 +37,7 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-secondary-900 via-secondary-800 to-primary-900 flex items-center justify-center p-4">
-      {/* Background decoration */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -right-40 w-96 h-96 bg-primary-600/20 rounded-full blur-3xl" />
-        <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-primary-800/20 rounded-full blur-3xl" />
-      </div>
-
+    <div className="min-h-screen bg-[var(--beige-bg)] flex items-center justify-center p-4 relative">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -52,76 +46,77 @@ const Login = () => {
       >
         {/* Logo */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-primary-600 rounded-2xl shadow-glow mb-4">
-            <Link2 className="w-8 h-8 text-white" />
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-[var(--secondary)] rounded-2xl mb-4">
+            <svg viewBox="0 0 24 24" fill="none" stroke="var(--surface)" strokeWidth="2.4" strokeLinecap="round" className="w-8 h-8">
+              <path d="M9 15L15 9"/><path d="M14 6h4v4"/><path d="M10 18H6v-4"/>
+            </svg>
           </div>
-          <h1 className="text-3xl font-bold text-white">VendorLink</h1>
-          <p className="text-secondary-400 mt-1">Sign in to your account</p>
+          <h1 className="text-3xl font-bold text-[var(--text-primary)] font-space tracking-tight">VendorLink</h1>
+          <p className="text-[var(--text-secondary)] mt-1 font-medium">Sign in to your account</p>
         </div>
 
         {/* Card */}
-        <div className="glass rounded-3xl p-8 border border-white/10 shadow-2xl">
+        <div className="card p-8">
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
             {/* Email */}
             <div>
-              <label className="block text-sm font-medium text-secondary-300 mb-1.5">Email address</label>
+              <label className="label">Email address</label>
               <div className="relative">
-                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-secondary-500" />
+                <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--text-muted)]" />
                 <input
                   type="email"
                   placeholder="admin@vendorlink.com"
                   {...register('email', { required: 'Email is required', pattern: { value: /\S+@\S+\.\S+/, message: 'Invalid email' } })}
-                  className="w-full pl-10 pr-4 py-3 bg-secondary-900/60 border border-white/10 rounded-xl text-white placeholder-secondary-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all text-sm"
+                  className="input-field pl-10 pr-4 py-3"
                 />
               </div>
-              {errors.email && <p className="mt-1 text-xs text-red-400">{errors.email.message}</p>}
+              {errors.email && <p className="mt-1.5 text-xs text-[var(--neg)] font-semibold">{errors.email.message}</p>}
             </div>
 
             {/* Password */}
             <div>
-              <label className="block text-sm font-medium text-secondary-300 mb-1.5">Password</label>
+              <label className="label">Password</label>
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-secondary-500" />
+                <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--text-muted)]" />
                 <input
                   type={showPass ? 'text' : 'password'}
                   placeholder="••••••••"
                   {...register('password', { required: 'Password is required' })}
-                  className="w-full pl-10 pr-12 py-3 bg-secondary-900/60 border border-white/10 rounded-xl text-white placeholder-secondary-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all text-sm"
+                  className="input-field pl-10 pr-12 py-3"
                 />
                 <button type="button" onClick={() => setShowPass(!showPass)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-secondary-500 hover:text-secondary-300">
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-[var(--text-muted)] hover:text-[var(--text-secondary)]">
                   {showPass ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
               </div>
-              {errors.password && <p className="mt-1 text-xs text-red-400">{errors.password.message}</p>}
+              {errors.password && <p className="mt-1.5 text-xs text-[var(--neg)] font-semibold">{errors.password.message}</p>}
             </div>
 
             <div className="flex justify-end">
-              <Link to="/forgot-password" className="text-sm text-primary-400 hover:text-primary-300 transition-colors">
+              <Link to="/forgot-password" className="text-sm font-semibold text-[var(--cyan-dark)] hover:underline">
                 Forgot password?
               </Link>
             </div>
 
-            <motion.button
-              whileTap={{ scale: 0.98 }}
+            <button
               type="submit"
               disabled={loading}
-              className="w-full bg-primary-600 hover:bg-primary-500 text-white font-semibold py-3 px-4 rounded-xl transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-transparent disabled:opacity-50 flex items-center justify-center gap-2"
+              className="btn-primary w-full py-3"
             >
               {loading ? (
                 <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
               ) : (
                 <>Sign In <ArrowRight className="w-4 h-4" /></>
               )}
-            </motion.button>
+            </button>
           </form>
 
           {/* Demo credentials */}
-          <div className="mt-6 p-4 bg-secondary-900/40 rounded-xl border border-white/5">
-            <p className="text-xs font-medium text-secondary-400 mb-2">Demo credentials:</p>
-            <div className="space-y-1">
-              <p className="text-xs text-secondary-500">Admin: <span className="text-secondary-300">admin@vendorlink.com / Admin@123</span></p>
-              <p className="text-xs text-secondary-500">Vendor: <span className="text-secondary-300">vendor@vendorlink.com / Vendor@123</span></p>
+          <div className="mt-6 p-4 bg-[var(--beige-card-2)] rounded-xl border border-[var(--border)]">
+            <p className="text-xs font-bold text-[var(--text-secondary)] mb-2 uppercase tracking-wide">Demo credentials:</p>
+            <div className="space-y-1.5">
+              <p className="text-xs text-[var(--text-secondary)]">Admin: <span className="font-semibold text-[var(--text-primary)]">admin@vendorlink.com / Admin@123</span></p>
+              <p className="text-xs text-[var(--text-secondary)]">Vendor: <span className="font-semibold text-[var(--text-primary)]">vendor@vendorlink.com / Vendor@123</span></p>
             </div>
           </div>
         </div>
